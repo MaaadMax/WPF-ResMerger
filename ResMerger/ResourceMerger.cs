@@ -90,6 +90,13 @@ namespace ResMerger
         /// <param name="resDictString">resource dictionary string (node name)</param>
         public static void MergeResources(string projectPath, string projectName = null, string relativeSourceFilePath = "/LookAndFeel.xaml", string relativeOutputFilePath = "/FullLookAndFeel.xaml")
         {
+            if (projectPath.EndsWith("."))
+            {
+                // Sometimes "$(ProjectDir)" ends with a slash. So you have to write "$(ProjectDir)." that the " is not
+                // trimmed. Here we remove this point again.
+                projectPath = projectPath.TrimEnd('.');
+            }
+
             // if project path does not exist throw exception
             if (!Directory.Exists(projectPath))
                 Helpers.ThrowException<Exception>(PROJECT_PATH_EXCEPTION);
